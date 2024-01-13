@@ -4,3 +4,5 @@ altair
 plotly
 numpy
 datetime
+xlrd
+openpyxl

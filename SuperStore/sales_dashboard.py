@@ -16,8 +16,8 @@ if fl is not None:
     st.write(filename)
     df = pd.read_excel(filename)
 else:
-    os.chdir(r"C:\Users\Windows\Desktop\Streamlit Tutorial\SuperStore")
     df = pd.read_excel("Sample - Superstore.xls")
+
 col1, col2 = st.columns((2))
 # Convert 'Order Date' to string and extract only the date part (first 10 characters for 'YYYY-MM-DD')
 df["Order Date"] = pd.to_datetime(df["Order Date"])

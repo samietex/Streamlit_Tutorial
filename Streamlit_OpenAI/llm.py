@@ -3,7 +3,7 @@ import streamlit as st
 
 st.title("ChatGPT-like clone")
 
-client = OpenAI(api_key = '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')
+client = OpenAI(api_key = '')
 
 # Ensure 'openai_model' and 'messages' are initialized in the session state
 if "openai_model" not in st.session_state:

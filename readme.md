@@ -12,7 +12,7 @@ This repository is structured into three main sections, each containing a unique
 
 | Demo Number | Title                        | Description                                                          |
 |-------------|------------------------------|----------------------------------------------------------------------|
-| Demo 1      | [Data Exploration and Visualization App](/Adidas/Adidas.ipynb)         | Dive into data exploration with interactive widgets to filter and visualize datasets. |
+| Demo 1      | [Data Exploration and Visualization App](/Adidas/adidas.ipynb)         | Dive into data exploration with interactive widgets to filter and visualize datasets. |
 | Demo 2      | [Machine Learning Visualization](/SuperStore/sales_dashboard.ipynb) | See how Streamlit can be used to visualize machine learning model operations. |
 | Demo 3      | [Streamlit LLM App](/Streamlit_OpenAI/llm.ipynb)  | Learn to build an app that tracks data in real-time with user input and updates. |
 

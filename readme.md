@@ -27,4 +27,12 @@ Each demo directory contains:
 
 To begin your Streamlit journey, access the comprehensive tutorial notebook [here!](/streamlit_tutorial.ipynb)
 
+## Resources
+
+This streamlit tutorial repository was created with the help of some resources:
+
+* [Streamlit Documentation](https://docs.streamlit.io/get-started)
+* [Python Interactive Dashboard using Streamlit and Plotly by Programming Is Fun on Youtube](https://www.youtube.com/watch?v=7yAw1nPareM&t=157s)
+
+
 

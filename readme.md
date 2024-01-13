@@ -12,19 +12,19 @@ This repository is structured into three main sections, each containing a unique
 
 | Demo Number | Title                        | Description                                                          |
 |-------------|------------------------------|----------------------------------------------------------------------|
-| Demo 1      | [Data Exploration and Visualization App](/Adidas/adidas.ipynb)         | Dive into data exploration with interactive widgets to filter and visualize datasets. |
-| Demo 2      | [Machine Learning Visualization](/SuperStore/sales_dashboard.ipynb) | See how Streamlit can be used to visualize machine learning model operations. |
-| Demo 3      | [Streamlit LLM App](/Streamlit_OpenAI/llm.ipynb)  | Learn to build an app that tracks data in real-time with user input and updates. |
+| Demo 1      | [Adidas Data Exploration and Visualization App](/Adidas/adidas.py)         | Source code fo a data exploration and visualization app. |
+| Demo 2      | [Super Store Data Exploration and Visualization App](/SuperStore/sales_dashboard.py) | Source code for a data exploration and visualization app. |
+| Demo 3      | [Streamlit LLM App](/Streamlit_OpenAI/llm.ipynb)  | Source code for an LLM app built using Streamlit and OpenAI. |
 
 
 Each demo directory contains:
-- A Jupyter notebook file with step-by-step instructions specific to the demo, and how you can replicate the streamlit app.
 - A `requirements.txt` file listing the necessary Python packages.
 - A python script that contains the Streamlit app code.
 - Additional resources like datasets or model files if applicable.
 
-## Getting Started
 
-To get started with the tutorials, follow these steps:
+## Get Started
 
-1. **Clone the Repository**
+To begin your Streamlit journey, access the comprehensive tutorial notebook [here!](/streamlit_tutorial.ipynb)
+
+

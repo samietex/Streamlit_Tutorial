@@ -3,6 +3,5 @@ pandas
 altair
 plotly
 numpy
-os
 datetime
 PIL

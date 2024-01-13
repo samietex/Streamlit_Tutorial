@@ -4,4 +4,3 @@ altair
 plotly
 numpy
 datetime
-PIL

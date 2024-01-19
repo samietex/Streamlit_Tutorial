@@ -122,7 +122,7 @@ with st.expander("View Data of TimeSeries:"):
     csv = linechart.to_csv(index=False).encode("utf-8")
     st.download_button('Download Data', data = csv, file_name = "TimeSeries.csv", mime ='text/csv')
 
-# Create a treem based on Region, category, sub-Category
+# Create a treemap based on Region, category, sub-Category
 st.subheader("Hierarchical view of Sales using TreeMap")
 fig3 = px.treemap(filtered_df, path = ["Region","Category","Sub-Category"], values = "Sales",hover_data = ["Sales"],
                   color = "Sub-Category")

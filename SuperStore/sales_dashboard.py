@@ -87,7 +87,7 @@ with col1:
     st.plotly_chart(fig,use_container_width=True, height = 200)
 
 with col2:
-    st.subheader("Region wise Sales")
+    st.subheader("Region wise Sales") #comment
     fig = px.pie(filtered_df, values = "Sales", names = "Region", hole = 0.5)
     fig.update_traces(text = filtered_df["Region"], textposition = "outside")
     st.plotly_chart(fig,use_container_width=True)

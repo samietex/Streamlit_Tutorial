@@ -6,7 +6,7 @@ numpy==1.24.3
 datetime
 xlrd==2.0.1
 openpyxl==3.0.10
-pickleshare @ file:///tmp/build/80754af9/pickleshare_1606932040724/work
+pickleshare
 joblib==1.1.1
 pickle
 scikit-learn

@@ -1,11 +1,12 @@
-streamlit
-pandas
-altair
+streamlit==1.29.0
+pandas==1.3.5
+altair==5.1.2
 plotly
-numpy
+numpy==1.24.3
 datetime
-xlrd
-openpyxl
-numpy
-joblib
+xlrd==2.0.1
+openpyxl==3.0.10
+pickleshare @ file:///tmp/build/80754af9/pickleshare_1606932040724/work
+joblib==1.1.1
 pickle
+scikit-learn

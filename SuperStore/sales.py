@@ -13,7 +13,20 @@ st.set_page_config(page_title="Superstore!!!", page_icon=":bar_chart:",layout="w
 st.title(" :bar_chart: Sample SuperStore EDA")
 st.markdown('<style>div.block-container{padding-top:1rem;}</style>',unsafe_allow_html=True)
 
-df = pd.read_excel('Sample - Superstore.xls')
+# Get the directory of the script
+script_directory = os.path.dirname(os.path.abspath(__file__))
+
+# Specify the file path relative to the script directory
+file_path = os.path.join(script_directory, 'Sample - Superstore.xls')
+
+# Check if the file exists before reading it
+if os.path.exists(file_path):
+    # Read the Excel file
+    df = pd.read_excel(file_path)
+    st.write('File loaded successfully!')
+    st.write(df.head())  # Print a sample of the data
+else:
+    st.error('File not found. Please check the file path.')
 
 df["Order Date"] = pd.to_datetime(df["Order Date"])
 

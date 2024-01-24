@@ -1,4 +1,7 @@
 import streamlit as st
+import pickle
+import joblib
+import numpy as np
 import plotly.express as px
 import pandas as pd
 import os
@@ -162,3 +165,113 @@ with st.expander("View Data"):
 # Download orginal DataSet
 csv = df.to_csv(index = False).encode('utf-8')
 st.download_button('Download Data', data = csv, file_name = "Data.csv",mime = "text/csv")
+
+
+
+
+
+def load_model(model_name, directory = 'saved_models'):
+    filename = os.path.join(directory, f'{model_name}.pkl')
+    with open(filename, 'rb') as file:
+        model = pickle.load(file)
+    return model
+
+def load_label_encoders(directory='saved_models'):
+    encoders = {}
+    for item in os.listdir(directory):
+        if item.endswith('_encoder.pkl'):
+            col = item.replace('_encoder.pkl', '')
+            encoders[col] = joblib.load(os.path.join(directory, item))
+    return encoders
+
+from sklearn.preprocessing import LabelEncoder
+
+def preprocess_input(df):
+    for i in df.columns:
+        if df[i].dtype == 'O':
+            lb = LabelEncoder()
+            df[i] = lb.fit_transform(df[i])
+            
+    return df
+
+from sklearn.preprocessing import MinMaxScaler
+mm = MinMaxScaler()
+
+def scaler(df):
+    # If exclude_cols is not provided, initialize it as an empty list
+    #if exclude_cols is None:
+        #exclude_cols = []
+
+    # Get a list of numeric columns excluding the specified ones
+    #numeric_cols = [col for col in df.columns if col not in exclude_cols]
+
+    # Scale only the numeric columns
+    for i in df.columns:
+        df[[i]] = mm.fit_transform(df[[i]])
+    return df
+
+
+
+
+
+st.title("Profit Prediction")
+
+# Input features based on the dataset
+col1, col2 = st.columns((2))
+
+with col1:
+    shipmode = st.selectbox('Ship Mode', ['Second Class', 'Standard Class', 'First Class', 'Same Day'])
+    segment = st.selectbox('Segment', ['Consumer', 'Corporate', 'Home Office'])
+    country = st.selectbox('Country', ['United States'])
+    state = st.selectbox('State', ['Kentucky', 'California', 'Florida', 'North Carolina', 'Washington', 'Texas',
+                        'Wisconsin', 'Utah', 'Nebraska', 'Pennsylvania', 'Illinois', 'Minnesota',
+                        'Michigan', 'Delaware', 'Indiana', 'New York', 'Arizona', 'Virginia',
+                        'Tennessee', 'Alabama', 'South Carolina', 'Oregon', 'Colorado', 'Iowa', 'Ohio',
+                        'Missouri', 'Oklahoma', 'New Mexico', 'Louisiana', 'Connecticut', 'New Jersey',
+                        'Massachusetts', 'Georgia', 'Nevada', 'Rhode Island', 'Mississippi',
+                        'Arkansas', 'Montana', 'New Hampshire', 'Maryland', 'District of Columbia',
+                        'Kansas', 'Vermont', 'Maine', 'South Dakota', 'Idaho', 'North Dakota',
+                        'Wyoming', 'West Virginia'])
+    region = st.selectbox('Region', ['South', 'West', 'Central', 'East'])
+
+with col2:
+    category = st.selectbox('Category', ['Furniture', 'Office Supplies', 'Technology'])
+    sub_category = st.selectbox('Sub-Category', ['Bookcases', 'Chairs', 'Labels', 'Tables', 'Storage', 'Furnishings', 'Art',
+                                'Phones', 'Binders', 'Appliances', 'Paper', 'Accessories', 'Envelopes',
+                                'Fasteners', 'Supplies', 'Machines', 'Copiers'])
+    sales = st.slider('Sales', min_value = 0, max_value = 30000, step = 1)
+    quantity = st.slider('Quantity', min_value = 1, max_value = 20, step = 1)
+    discount = st.slider('Discount', min_value = 0, max_value = 1)
+    month = st.selectbox('Month', ['November', 'June', 'October', 'April', 'December', 'May', 'August', 'July',
+                        'September', 'January', 'March', 'February'])
+
+if st.button('Predict Profit'):
+        # Create a DataFrame with the input features
+        input_data = pd.DataFrame([[shipmode, segment, country, state, region, category, sub_category, sales, quantity, discount, month]],
+                                  columns=['Ship Mode', 'Segment', 'Country', 'State', 'Region', 'Category', 'Sub-Category', 'Sales', 'Quantity', 'Discount', 'Month'])
+
+        st.write('Raw input data:', input_data)
+
+        # Load encoders
+        #encoders = load_label_encoders()
+
+        # Preprocess the input data
+        input_data = preprocess_input(input_data)
+
+        # Exclude the columns that are already encoded
+        #exclude_cols = ['shipmode', 'segment', 'country', 'state', 'region', 'category', 'sub_category', 'month']
+
+        # Scale the input data
+        final_data = scaler(input_data)
+
+        st.write(final_data)
+
+        # Load the model (adjust the model name if needed)
+        model = load_model('XGBoost')
+
+        # Make prediction
+        prediction = model.predict(final_data)
+        prediction = prediction[0]
+
+        # Display the prediction
+        st.write(f'The predicted profit is {prediction}')  

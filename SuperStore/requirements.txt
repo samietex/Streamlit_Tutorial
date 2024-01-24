@@ -6,3 +6,6 @@ numpy
 datetime
 xlrd
 openpyxl
+numpy
+joblib
+pickle

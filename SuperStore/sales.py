@@ -293,7 +293,11 @@ if st.button('Predict Profit'):
 
     st.write('Processed input data:', input_data_processed)
 
-    
+    model = load_best_model()
+
+    predictions = model.predict(input_data_processed)[0]
+
+    st.write(f'The predicted profit is {predictions}')
 
 
 

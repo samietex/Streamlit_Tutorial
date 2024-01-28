@@ -89,6 +89,10 @@ print(predictions)
 with open('newest_model.pkl', 'wb') as file:
     pickle.dump(model, file)
 
+from joblib import dump
+
+dump(model, 'newest_model.joblib')
+
 print("Model saved successfully.")
 
 

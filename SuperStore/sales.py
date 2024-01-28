@@ -209,9 +209,9 @@ st.download_button('Download Data', data = csv, file_name = "Data.csv",mime = "t
 #-------THE PREDICTION APP------------
 import streamlit as st
 import pandas as pd
+from joblib import load
 
-with open('newest_model.pkl', 'rb') as file:
-    model = pickle.load(file)
+model = load('newest_model.joblib')
 
 
 # Function to replace values in DataFrame columns

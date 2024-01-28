@@ -212,11 +212,11 @@ import pandas as pd
 from joblib import load
 import os
 
-# Get the current working directory
-current_directory = os.getcwd()
+# Set the working directory to the script's directory
+os.chdir(os.path.dirname(__file__))
 
 # Construct the full path to the model file
-model_file_path = os.path.join(current_directory, 'newest_model.joblib')
+model_file_path = 'newest_model.joblib'
 
 # Check if the file exists
 if not os.path.exists(model_file_path):

@@ -210,8 +210,20 @@ st.download_button('Download Data', data = csv, file_name = "Data.csv",mime = "t
 import streamlit as st
 import pandas as pd
 from joblib import load
+import os
 
-model = load('newest_model.joblib')
+# Get the current working directory
+current_directory = os.getcwd()
+
+# Construct the full path to the model file
+model_file_path = os.path.join(current_directory, 'newest_model.joblib')
+
+# Check if the file exists
+if not os.path.exists(model_file_path):
+    st.error("Error: Model file 'newest_model.joblib' not found.")
+else:
+    # Load the model
+    model = load(model_file_path)
 
 
 # Function to replace values in DataFrame columns

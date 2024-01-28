@@ -10,3 +10,4 @@ pickleshare
 joblib==1.1.1
 scikit-learn
 matplotlib 
+xgboost

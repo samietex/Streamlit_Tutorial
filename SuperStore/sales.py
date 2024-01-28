@@ -282,7 +282,7 @@ import xgboost as xgb
 
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.3, random_state = 42)
 
-model = XGBRegressor(n_estimaators = 100, learning_rate = 0.2)
+model = RandomForestRegressor(n_estimators = 100, max_depth = 10)
 
 model.fit(x_train, y_train)
 

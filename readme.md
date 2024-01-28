@@ -13,7 +13,7 @@ This repository is structured into three main sections, each containing a unique
 | Demo Number | Title                        | Description                                                          |
 |-------------|------------------------------|----------------------------------------------------------------------|
 | Demo 1      | [Adidas Data Exploration and Visualization App](/Adidas/adidas.py)         | Source code fo a data exploration and visualization app. |
-| Demo 2      | [Super Store Data Exploration and Visualization App](/SuperStore/sales_dashboard.py) | Source code for a data exploration and visualization app. |
+| Demo 2      | [Super Store Data Exploration, Visualization and Prediction App](/SuperStore/sales.py) | Source code for a data exploration, visualization, and prediction app. |
 | Demo 3      | [Streamlit LLM App](/Streamlit_OpenAI/llm.ipynb)  | Source code for an LLM app built using Streamlit and OpenAI. |
 
 

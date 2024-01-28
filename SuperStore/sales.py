@@ -267,7 +267,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import mean_squared_error
-from xgboost import XGBRegressor
+#from xgboost import XGBRegressor
 from sklearn.ensemble import RandomForestRegressor
 #from catboost import CatBoostRegressor
 #from lightgbm import LGBMRegressor
@@ -278,7 +278,7 @@ import seaborn as sns
 import os
 import joblib
 import pickle
-import xgboost as xgb
+#import xgboost as xgb
 
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.3, random_state = 42)
 

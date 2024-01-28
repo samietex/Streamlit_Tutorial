@@ -210,14 +210,16 @@ st.download_button('Download Data', data = csv, file_name = "Data.csv",mime = "t
 import streamlit as st
 import pandas as pd
 
-def load_best_model(filename='best_model.pkl'):
+def load_model(file_path='saved_model.pkl'):
     try:
-        with open(filename, 'rb') as file:
+        # Open the file in binary mode for reading
+        with open(file_path, 'rb') as file:
+            # Load the model from the file
             model = pickle.load(file)
-        print(f"Best model loaded from {filename}")
+        print(f"Model loaded successfully from {file_path}")
         return model
     except FileNotFoundError:
-        print(f"No model file found at {filename}")
+        print(f"No model file found at {file_path}")
         return None
 
 
@@ -293,7 +295,7 @@ if st.button('Predict Profit'):
 
     st.write('Processed input data:', input_data_processed)
 
-    model = load_best_model()
+    model = load_model('newest_model.pkl')
 
     predictions = model.predict(input_data_processed)[0]
 

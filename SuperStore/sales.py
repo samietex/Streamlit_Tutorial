@@ -181,15 +181,26 @@ st.download_button('Download Data', data = csv, file_name = "Data.csv",mime = "t
 
 
 
+import pickle
+from sklearn.preprocessing import LabelEncoder
 
+def load_best_model(filename='best_model.pkl'):
+    try:
+        with open(filename, 'rb') as file:
+            model = pickle.load(file)
+        print(f"Best model loaded from {filename}")
+        return model
+    except FileNotFoundError:
+        print(f"No model file found at {filename}")
+        return None
+    
+def encoder(df, encoders):
+    for col, lb in encoders.items():
+        if col in df.columns:
+            df[col] = lb.transform(df[col])
+    return df
 
-def load_model(model_name, directory = 'saved_models'):
-    filename = os.path.join(directory, f'{model_name}.pkl')
-    with open(filename, 'rb') as file:
-        model = pickle.load(file)
-    return model
-
-def load_label_encoders(directory='saved_models'):
+def load_label_encoders(directory='.'):
     encoders = {}
     for item in os.listdir(directory):
         if item.endswith('_encoder.pkl'):
@@ -197,35 +208,50 @@ def load_label_encoders(directory='saved_models'):
             encoders[col] = joblib.load(os.path.join(directory, item))
     return encoders
 
+def preprocess_input(input_data, encoders):
+    for col, encoder in encoders.items():
+        if col in input_data:
+            # Handling unseen labels: Assign a common category for unseen labels
+            known_labels = set(encoder.classes_)
+            # Apply lambda function to handle unseen labels
+            input_data[col] = input_data[col].apply(lambda x: x if x in known_labels else 'Unseen')
+            # Temporary solution: Fit the encoder again on the fly with 'Unseen' label
+            # (Note: This is not an ideal solution for a production environment.
+            #  A better approach would be adjusting the training phase to anticipate unseen categories.)
+            all_labels = np.append(encoder.classes_, 'Unseen')
+            encoder.fit(all_labels)
+            # Transform the column with the adjusted encoder
+            input_data[col] = encoder.transform(input_data[col])
+    return input_data
+
+
 from sklearn.preprocessing import LabelEncoder
 
-def preprocess_input(df):
-    for i in df.columns:
-        if df[i].dtype == 'O':
-            lb = LabelEncoder()
-            df[i] = lb.fit_transform(df[i])
-            
-    return df
-
 from sklearn.preprocessing import MinMaxScaler
+
 mm = MinMaxScaler()
 
 def scaler(df):
-    # If exclude_cols is not provided, initialize it as an empty list
-    #if exclude_cols is None:
-        #exclude_cols = []
-
-    # Get a list of numeric columns excluding the specified ones
-    #numeric_cols = [col for col in df.columns if col not in exclude_cols]
-
-    # Scale only the numeric columns
     for i in df.columns:
         df[[i]] = mm.fit_transform(df[[i]])
     return df
 
+'''def preprocess_input(input_data, encoders):
+    for i in input_data.columns:
+        if input_data[i].dtype == 'O':
+            # Use the same encoder used during training
+            lb = encoders.get(i, LabelEncoder())
 
+            # Fit and transform the label encoder on the current column
+            input_data[i] = lb.fit_transform(input_data[i])
 
+            # Save the encoder for future use
+            encoders[i] = lb
 
+    # Save updated encoders for future use
+    save_label_encoders(encoders)
+
+    return input_data'''
 
 st.title("Profit Prediction")
 
@@ -252,39 +278,37 @@ with col2:
     sub_category = st.selectbox('Sub-Category', ['Bookcases', 'Chairs', 'Labels', 'Tables', 'Storage', 'Furnishings', 'Art',
                                 'Phones', 'Binders', 'Appliances', 'Paper', 'Accessories', 'Envelopes',
                                 'Fasteners', 'Supplies', 'Machines', 'Copiers'])
-    sales = st.slider('Sales', min_value = 0, max_value = 30000, step = 1)
-    quantity = st.slider('Quantity', min_value = 1, max_value = 20, step = 1)
-    discount = st.slider('Discount', min_value = 0, max_value = 1)
+    sales = st.slider('Sales', min_value=0, max_value=30000, step=1)
+    quantity = st.slider('Quantity', min_value=1, max_value=20, step=1)
+    discount = st.slider('Discount', min_value=0, max_value=1)
     month = st.selectbox('Month', ['November', 'June', 'October', 'April', 'December', 'May', 'August', 'July',
                         'September', 'January', 'March', 'February'])
 
 if st.button('Predict Profit'):
-        # Create a DataFrame with the input features
-        input_data = pd.DataFrame([[shipmode, segment, country, state, region, category, sub_category, sales, quantity, discount, month]],
-                                  columns=['Ship Mode', 'Segment', 'Country', 'State', 'Region', 'Category', 'Sub-Category', 'Sales', 'Quantity', 'Discount', 'Month'])
+    # Create a DataFrame with the input features
+    input_data = pd.DataFrame([[shipmode, segment, country, state, region, category, sub_category, sales, quantity, discount, month]],
+                              columns=['Ship Mode', 'Segment', 'Country', 'State', 'Region', 'Category', 'Sub-Category', 'Sales', 'Quantity', 'Discount', 'Month'])
 
-        st.write('Raw input data:', input_data)
+    st.write('Raw input data:', input_data)
 
-        # Load encoders
-        #encoders = load_label_encoders()
+    # Load encoders
+    encoders = load_label_encoders()
+    
 
-        # Preprocess the input data
-        input_data = preprocess_input(input_data)
+    # Preprocess the input data using loaded encoders
+    input_data_preprocessed = encoder(input_data.copy(), encoders)
 
-        # Exclude the columns that are already encoded
-        #exclude_cols = ['shipmode', 'segment', 'country', 'state', 'region', 'category', 'sub_category', 'month']
+    # Display processed input data
+    st.write('Processed input data:', input_data_preprocessed)
 
-        # Scale the input data
-        final_data = scaler(input_data)
+    model = load_best_model()
 
-        st.write(final_data)
+    predictions = model.predict(input_data_preprocessed)[0]
 
-        # Load the model (adjust the model name if needed)
-        model = load_model('XGBoost')
+    st.write(f'The predicted profit is {predictions}')
 
-        # Make prediction
-        prediction = model.predict(final_data)
-        prediction = prediction[0]
+    
 
-        # Display the prediction
-        st.write(f'The predicted profit is {prediction}')  
+    
+
+    

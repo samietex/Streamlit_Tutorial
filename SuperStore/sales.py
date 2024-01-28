@@ -195,10 +195,11 @@ def load_best_model(filename='best_model.pkl'):
         return None
     
 def encoder(df, encoders):
+    df_encoded = df.copy()
     for col, lb in encoders.items():
-        if col in df.columns:
-            df[col] = lb.transform(df[col])
-    return df
+        if col in df_encoded.columns:
+            df_encoded[col] = lb.transform(df_encoded[col])
+    return df_encoded
 
 def load_label_encoders(directory='.'):
     encoders = {}
@@ -296,7 +297,7 @@ if st.button('Predict Profit'):
     
 
     # Preprocess the input data using loaded encoders
-    input_data_preprocessed = encoder(input_data.copy(), encoders)
+    input_data_preprocessed = encoder(input_data, encoders)
 
     # Display processed input data
     st.write('Processed input data:', input_data_preprocessed)

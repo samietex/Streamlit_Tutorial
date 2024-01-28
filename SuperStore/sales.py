@@ -210,17 +210,8 @@ st.download_button('Download Data', data = csv, file_name = "Data.csv",mime = "t
 import streamlit as st
 import pandas as pd
 
-def load_model(file_path='saved_model.pkl'):
-    try:
-        # Open the file in binary mode for reading
-        with open(file_path, 'rb') as file:
-            # Load the model from the file
-            model = pickle.load(file)
-        print(f"Model loaded successfully from {file_path}")
-        return model
-    except FileNotFoundError:
-        print(f"No model file found at {file_path}")
-        return None
+with open('newest_model.pkl', 'rb') as file:
+    model = pickle.load(file)
 
 
 # Function to replace values in DataFrame columns
@@ -295,7 +286,7 @@ if st.button('Predict Profit'):
 
     st.write('Processed input data:', input_data_processed)
 
-    model = load_model('newest_model.pkl')
+
 
     predictions = model.predict(input_data_processed)[0]
 

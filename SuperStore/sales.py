@@ -212,7 +212,20 @@ import pandas as pd
 from joblib import load
 import os
 
-sales = pd.read_excel('Sample - Superstore.xls')
+# Get the directory of the script
+script_directory = os.path.dirname(os.path.abspath(__file__))
+
+# Specify the file path relative to the script directory
+file_path = os.path.join(script_directory, 'Sample - Superstore.xls')
+
+# Check if the file exists before reading it
+if os.path.exists(file_path):
+    # Read the Excel file
+    sales = pd.read_excel(file_path)
+    st.write('File loaded successfully!')
+    st.write(df.head())  # Print a sample of the data
+else:
+    st.error('File not found. Please check the file path.')
 
 sales['Order Date'] = pd.to_datetime(sales['Order Date'])
 

@@ -367,7 +367,9 @@ if st.button('Predict Profit'):
 
     predictions = model.predict(input_data_processed)[0]
 
-    st.write(f'The predicted profit is {predictions}')
+    rounded_predictions = round(predictions)
+
+    st.write(f'The predicted profit is ${rounded_predictions}')
 
 
 

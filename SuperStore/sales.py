@@ -221,15 +221,6 @@ sales['Month'] = sales['Order Date'].dt.month_name()
 new_sales = sales.drop(['Row ID', 'Order ID', 'Order Date', 'Ship Date', 'Customer ID', 'Customer Name', 'Postal Code',
                         'Product ID', 'Product Name', 'City'], axis = 1)
 
-def check(df):
-    for i in df.columns:
-        if df[i].dtype == 'object':
-
-            print(f'{i} : {df[i].unique()}')
-
-
-check(new_sales)
-
 def replace_values_with_dict(df, column_dict):
     for column, value_dict in column_dict.items():
         df[column] = df[column].replace(value_dict)

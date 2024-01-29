@@ -274,6 +274,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
 from sklearn.neighbors import KNeighborsRegressor
+
 import os
 import joblib
 import pickle
@@ -362,9 +363,7 @@ if st.button('Predict Profit'):
 
     predictions = model.predict(input_data_processed)[0]
 
-    rounded_prediction = round(predictions)
-
-    st.write(f'The predicted profit is ${rounded_prediction}')
+    st.write(f'The predicted profit is {predictions}')
 
 
 
